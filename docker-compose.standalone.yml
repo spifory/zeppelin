@@ -58,7 +58,7 @@ services:
       migrate:
         condition: service_completed_successfully
     build: *build
-    restart: on-failure
+    restart: unless-stopped
     environment: *env
     env_file:
       - stack.env
@@ -70,7 +70,7 @@ services:
       migrate:
         condition: service_completed_successfully
     build: *build
-    restart: on-failure
+    restart: unless-stopped
     environment: *env
     env_file:
       - stack.env
@@ -82,7 +82,7 @@ services:
       migrate:
         condition: service_completed_successfully
     build: *build
-    restart: on-failure
+    restart: unless-stopped
     environment: *env
     env_file:
       - stack.env
