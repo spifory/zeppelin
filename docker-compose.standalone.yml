@@ -5,6 +5,7 @@ volumes:
 services:
   mysql:
     image: mysql:8.0
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${STANDALONE_MYSQL_ROOT_PASSWORD?:Missing STANDALONE_MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: zeppelin
@@ -25,6 +26,7 @@ services:
       retries: 60
 
   nginx:
+    restart: unless-stopped
     build:
       context: .
       dockerfile: docker/production/nginx/Dockerfile
