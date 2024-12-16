@@ -7,12 +7,12 @@ import { SavedMessage } from "../../../data/entities/SavedMessage.js";
 import { humanizeDurationShort } from "../../../humanizeDurationShort.js";
 import { getBaseUrl, sendErrorMessage, sendSuccessMessage } from "../../../pluginUtils.js";
 import { ModActionsPlugin } from "../../../plugins/ModActions/ModActionsPlugin.js";
-import { DAYS, SECONDS, chunkArray, getInviteCodesInString, noop } from "../../../utils.js";
+import { SECONDS, WEEKS, chunkArray, getInviteCodesInString, noop } from "../../../utils.js";
 import { LogsPlugin } from "../../Logs/LogsPlugin.js";
 import { UtilityPluginType, utilityCmd } from "../types.js";
 
 const MAX_CLEAN_COUNT = 300;
-const MAX_CLEAN_TIME = 1 * DAYS;
+const MAX_CLEAN_TIME = 2 * WEEKS;
 const MAX_CLEAN_API_REQUESTS = 20;
 const CLEAN_COMMAND_DELETE_DELAY = 10 * SECONDS;
 
