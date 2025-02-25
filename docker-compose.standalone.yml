@@ -51,7 +51,7 @@ services:
       - DB_DATABASE=zeppelin
       - API_PATH_PREFIX=/api
     env_file:
-      - .env
+      - stack.env
     working_dir: /zeppelin/backend
     command: ["npm", "run", "migrate-prod"]
 
@@ -61,7 +61,7 @@ services:
         condition: service_completed_successfully
     build: *build
     restart: unless-stopped
-    environment: stack.env
+    environment: *env
     env_file:
       - .env
     working_dir: /zeppelin/backend
@@ -73,9 +73,9 @@ services:
         condition: service_completed_successfully
     build: *build
     restart: unless-stopped
-    environment: stack.env
+    environment: *env
     env_file:
-      - .env
+      - stack.env
     working_dir: /zeppelin/backend
     command: ["npm", "run", "start-bot-prod"]
   
@@ -85,7 +85,7 @@ services:
         condition: service_completed_successfully
     build: *build
     restart: unless-stopped
-    environment: stack.env
+    environment: *env
     env_file:
       - stack.env
     working_dir: /zeppelin/dashboard
