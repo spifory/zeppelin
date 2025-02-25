@@ -4,6 +4,7 @@ volumes:
   mysql-data:
 services:
   mysql:
+    restart: unless-stopped
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: ${STANDALONE_MYSQL_ROOT_PASSWORD?:Missing STANDALONE_MYSQL_ROOT_PASSWORD}
@@ -25,6 +26,7 @@ services:
       retries: 60
 
   nginx:
+    restart: unless-stopped
     build:
       context: .
       dockerfile: docker/production/nginx/Dockerfile
@@ -58,8 +60,8 @@ services:
       migrate:
         condition: service_completed_successfully
     build: *build
-    restart: on-failure
-    environment: *env
+    restart: unless-stopped
+    environment: stack.env
     env_file:
       - .env
     working_dir: /zeppelin/backend
@@ -70,8 +72,8 @@ services:
       migrate:
         condition: service_completed_successfully
     build: *build
-    restart: on-failure
-    environment: *env
+    restart: unless-stopped
+    environment: stack.env
     env_file:
       - .env
     working_dir: /zeppelin/backend
@@ -82,9 +84,9 @@ services:
       migrate:
         condition: service_completed_successfully
     build: *build
-    restart: on-failure
-    environment: *env
+    restart: unless-stopped
+    environment: stack.env
     env_file:
-      - .env
+      - stack.env
     working_dir: /zeppelin/dashboard
     command: ["node", "serve.js"]
