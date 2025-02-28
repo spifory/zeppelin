@@ -4,7 +4,9 @@ volumes:
   mysql-data:
 services:
   mysql:
+    restart: unless-stopped
     image: mysql:8.0
+    pull_policy: build
     environment:
       MYSQL_ROOT_PASSWORD: ${STANDALONE_MYSQL_ROOT_PASSWORD?:Missing STANDALONE_MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: zeppelin
@@ -25,6 +27,8 @@ services:
       retries: 60
 
   nginx:
+    restart: unless-stopped
+    pull_policy: build
     build:
       context: .
       dockerfile: docker/production/nginx/Dockerfile
@@ -32,6 +36,7 @@ services:
       - "${STANDALONE_WEB_PORT:?Missing STANDALONE_WEB_PORT}:80"
 
   migrate:
+    pull_policy: build
     depends_on:
       mysql:
         condition: service_healthy
@@ -49,7 +54,7 @@ services:
       - DB_DATABASE=zeppelin
       - API_PATH_PREFIX=/api
     env_file:
-      - .env
+      - stack.env
     working_dir: /zeppelin/backend
     command: ["npm", "run", "migrate-prod"]
 
@@ -58,10 +63,11 @@ services:
       migrate:
         condition: service_completed_successfully
     build: *build
-    restart: on-failure
+    restart: unless-stopped
+    pull_policy: build
     environment: *env
     env_file:
-      - .env
+      - stack.env
     working_dir: /zeppelin/backend
     command: ["npm", "run", "start-api-prod"]
 
@@ -70,10 +76,11 @@ services:
       migrate:
         condition: service_completed_successfully
     build: *build
-    restart: on-failure
+    restart: unless-stopped
+    pull_policy: build
     environment: *env
     env_file:
-      - .env
+      - stack.env
     working_dir: /zeppelin/backend
     command: ["npm", "run", "start-bot-prod"]
   
@@ -82,9 +89,10 @@ services:
       migrate:
         condition: service_completed_successfully
     build: *build
-    restart: on-failure
+    restart: unless-stopped
+    pull_policy: build
     environment: *env
     env_file:
-      - .env
+      - stack.env
     working_dir: /zeppelin/dashboard
     command: ["node", "serve.js"]
