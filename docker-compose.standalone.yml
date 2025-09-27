@@ -5,6 +5,7 @@ volumes:
 services:
   mysql:
     image: mysql:8.0
+    pull_policy: build
     environment:
       MYSQL_ROOT_PASSWORD: ${STANDALONE_MYSQL_ROOT_PASSWORD?:Missing STANDALONE_MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: zeppelin
@@ -37,6 +38,7 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+    pull_policy: build
     environment: &env
       - NODE_ENV=production
       - DB_HOST=mysql
@@ -55,7 +57,8 @@ services:
     depends_on:
       migrate:
         condition: service_completed_successfully
-    restart: on-failure
+    restart: unless-stopped
+    pull_policy: build
     environment: *env
     env_file:
       - stack.env
@@ -67,7 +70,8 @@ services:
     depends_on:
       migrate:
         condition: service_completed_successfully
-    restart: on-failure
+    restart: unless-stopped
+    pull_policy: build
     environment: *env
     env_file:
       - stack.env
@@ -79,7 +83,8 @@ services:
     depends_on:
       migrate:
         condition: service_completed_successfully
-    restart: on-failure
+    restart: unless-stopped
+    pull_policy: build
     environment: *env
     env_file:
       - stack.env
