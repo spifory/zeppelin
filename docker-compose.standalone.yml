@@ -46,7 +46,7 @@ services:
       - DB_DATABASE=zeppelin
       - API_PATH_PREFIX=/api
     env_file:
-      - .env
+      - stack.env
     working_dir: /zeppelin/backend
     command: ["npm", "run", "migrate-prod"]
 
