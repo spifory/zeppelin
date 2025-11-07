@@ -6,6 +6,7 @@ services:
   mysql:
     image: mysql:8.0
     pull_policy: build
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${STANDALONE_MYSQL_ROOT_PASSWORD?:Missing STANDALONE_MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: zeppelin
@@ -28,6 +29,7 @@ services:
 
   nginx:
     pull_policy: build
+    restart: unless-stopped
     build:
       context: .
       dockerfile: docker/production/nginx/Dockerfile
