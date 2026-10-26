@@ -61,7 +61,7 @@ services:
     depends_on:
       migrate:
         condition: service_completed_successfully
-    restart: on-failure
+    restart: unless-stopped
     environment: *env
     env_file:
       - .env
@@ -72,7 +72,7 @@ services:
     depends_on:
       migrate:
         condition: service_completed_successfully
-    restart: on-failure
+    restart: unless-stopped
     environment: *env
     env_file:
       - .env
@@ -83,7 +83,7 @@ services:
     depends_on:
       migrate:
         condition: service_completed_successfully
-    restart: on-failure
+    restart: unless-stopped
     environment: *env
     env_file:
       - .env
